@@ -276,7 +276,7 @@
 
         <div>
             <p>
-                halo deri, rakaaaaaaaaaaaaaaaaaaaaa
+                halo deri, rakaaaaaaaaaaaaaaaaaaaa
             </p>
         </div>
     </body>
