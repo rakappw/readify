@@ -1,47 +1,100 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Readify</title>
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+<body class="min-h-screen flex items-center justify-center font-sans
+bg-gradient-to-br from-amber-50 via-white to-rose-50
+dark:from-gray-900 dark:via-gray-950 dark:to-black">
+
+<div class="w-full max-w-md p-[2px] rounded-3xl bg-gradient-to-br from-amber-400 via-rose-400 to-purple-400 shadow-2xl">
+
+    <div class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-8">
+
+        <!-- TITLE -->
+        <div class="text-center mb-6">
+            <div class="text-5xl mb-2">📖</div>
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-white">Masuk Akun</h1>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">
+                Selamat datang kembali di Readify
+            </p>
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <!-- STATUS SESSION -->
+        @if (session('status'))
+            <div class="mb-4 text-green-600 text-sm text-center">
+                {{ session('status') }}
+            </div>
+        @endif
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+        <form method="POST" action="{{ route('login') }}" class="space-y-4">
+            @csrf
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+            <!-- EMAIL -->
+            <div>
+                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                    class="w-full mt-1 px-4 py-2 rounded-xl border border-gray-300
+                    focus:ring-2 focus:ring-amber-400 focus:outline-none
+                    dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+                @error('email')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+            <!-- PASSWORD -->
+            <div>
+                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <input type="password" name="password" required
+                    class="w-full mt-1 px-4 py-2 rounded-xl border border-gray-300
+                    focus:ring-2 focus:ring-amber-400 focus:outline-none
+                    dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+                @error('password')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
+            <!-- REMEMBER & FORGOT -->
+            <div class="flex items-center justify-between text-sm mt-2">
+                <label class="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                    <input type="checkbox" name="remember"
+                        class="rounded border-gray-300 text-amber-500 focus:ring-amber-400">
+                    Remember me
+                </label>
+
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}"
+                       class="text-amber-500 hover:underline">
+                        Lupa password?
+                    </a>
+                @endif
+            </div>
+
+            <!-- BUTTON -->
+            <button type="submit"
+                class="w-full py-3 mt-4 rounded-xl font-semibold text-white
+                bg-gradient-to-r from-amber-500 to-rose-500
+                hover:scale-105 hover:shadow-lg transition duration-300">
+                Login
+            </button>
+
+            <!-- REGISTER LINK -->
+            <p class="text-center text-sm text-gray-500 mt-4 dark:text-gray-400">
+                Belum punya akun?
+                <a href="{{ route('register') }}" class="text-amber-500 font-semibold hover:underline">
+                    Register
                 </a>
-            @endif
+            </p>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
